@@ -1,96 +1,105 @@
 # EduSpace Landing Page
 
-A professional, bilingual landing page for EduSpace, a SaaS platform designed to optimize school management and logistics for educational institutions.
+A bilingual (EN/ES) marketing site for **EduSpace**, a SaaS platform that helps schools manage classrooms, resources, staff scheduling, and maintenance.
 
-## 🌟 About EduSpace
+## About EduSpace
 
-EduSpace is a comprehensive software-as-a-service solution that helps schools efficiently manage their resources and operations. From classroom scheduling to maintenance tracking, EduSpace provides tools for administrators and educators to streamline daily operations.
+EduSpace is a comprehensive software-as-a-service solution for educational institutions. It centralises the operational side of running a school so administrators and teachers can focus on education.
 
-Key features include:
-- **Space Manager**: Centralized management of classrooms, sports facilities, and equipment
-- **Maintenance & Tickets**: Issue tracking and resolution system for school facilities
-- **Staff Coordinator**: Staff scheduling and coordination tools
-- **Admin Dashboard**: Comprehensive oversight for school administrators
-- **Education Dashboard**: Tools for teachers including scheduling, reservations, and notifications
+Key capabilities highlighted on the site:
 
-## 📋 Features
+- **Space Manager** — classrooms, sports facilities, and equipment in one place
+- **Maintenance & Tickets** — issue tracking and resolution for school facilities
+- **Staff Coordinator** — staff scheduling and coordination
+- **Admin Dashboard** — oversight for school administrators
+- **Education Dashboard** — scheduling, reservations, and notifications for teachers
 
-- **Bilingual Support**: Available in English (`index.html`) and Spanish (`index-es.html`)
-- **Responsive Design**: Mobile-first approach ensuring optimal experience across all devices
-- **Interactive Elements**:
-  - Smooth scroll animations using ScrollReveal
-  - Testimonials carousel powered by Swiper.js
-  - Functional contact form with success feedback
-  - Mobile hamburger menu
-  - Back-to-top button
-- **SEO Optimized**: Complete meta tags for search engines, Open Graph, and Twitter cards
-- **Performance Focused**: Static site with CDN-hosted assets for fast loading
+## Features
 
-## 🛠️ Tech Stack
+- **Single-page bilingual site** — one `index.html`, runtime i18n in vanilla JS, language toggle in the nav
+- **Auto language detection** — picks EN/ES from `navigator.language`, persisted in `localStorage` (`eduspace.lang`)
+- **Responsive, mobile-first** layout
+- **Full-bleed hero** with IoT-focused messaging and animated counters
+- **Testimonials carousel** powered by Swiper
+- **Scroll-reveal animations** for section entrances
+- **Mobile hamburger menu** and back-to-top button
+- **SEO meta** — Open Graph and Twitter cards included
+- **No build step** — static files, CDN-hosted libraries
 
-- **HTML5**: Semantic structure and content
-- **CSS3**: Custom responsive styling with modern layout techniques
-- **Vanilla JavaScript**: DOM manipulation and interactivity
-- **Third-Party Libraries**:
-  - [Swiper.js](https://swiperjs.com/) - Touch-enabled sliders/carousel
-  - [ScrollReveal](https://scrollrevealjs.org/) - Scroll animations
-  - [RemixIcon](https://remixicon.com/) - Icon library
-  - [Google Fonts](https://fonts.google.com/) - Poppins typography
+## Tech Stack
 
-## 📁 Project Structure
+- **HTML5 / CSS3 / Vanilla JS** — no framework, no bundler, no package manager
+- **Swiper** — testimonials carousel
+- **ScrollReveal** — scroll-triggered animations
+- **RemixIcon** — icon set (including team social icons)
+- **Google Fonts (Poppins)** — typography
+
+## Project Structure
 
 ```
 landing-page/
-├── index.html              # English landing page
-├── index-es.html           # Spanish landing page
-├── styles.css              # Main stylesheet
-├── main.js                 # JavaScript functionality
-├── assets/                 # Images and media assets
-│   ├── logo.png
-│   ├── header.png
-│   ├── about.jpeg
-│   ├── team photos/
-│   ├── dashboard screenshots/
-│   └── testimonials/
-└── README.md               # This file
+├── index.html       # Single source of markup, with data-i18n* attributes
+├── i18n.js          # TRANSLATIONS dict (en/es) + applyTranslations/setLanguage/toggleLanguage
+├── data.js          # Team, testimonials, and pricing data + render helpers
+├── main.js          # Boot orchestrator: renders sections, applies i18n, inits libraries
+├── styles.css       # Stylesheet
+├── assets/          # Images (logo, hero, team photos, dashboards, testimonials)
+├── CLAUDE.md        # Guidance for Claude Code contributors
+├── STYLE_GUIDE.md   # Visual / content style guide
+└── README.md
 ```
 
-## 🚀 Local Development
+## How i18n Works
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd landing-page
-   ```
+Every translatable string in `index.html` carries one of:
 
-2. Open the desired version in your browser:
-   - English: Open `index.html`
-   - Spanish: Open `index-es.html`
+| Attribute              | Effect                              |
+|------------------------|-------------------------------------|
+| `data-i18n`            | replaces `textContent`              |
+| `data-i18n-alt`        | replaces `alt`                      |
+| `data-i18n-placeholder`| replaces `placeholder`              |
+| `data-i18n-title`      | replaces `title`                    |
+| `data-i18n-content`    | replaces `content` (on `<meta>`)    |
 
-No build process or dependencies required - this is a pure static site.
+Adding a string:
 
-## 🌐 Deployment
+1. Add `data-i18n="some.key"` to the element in `index.html`.
+2. Add `"some.key": "..."` to **both** `TRANSLATIONS.en` and `TRANSLATIONS.es` in `i18n.js`.
 
-Deploy to any static hosting service:
+Missing keys fall back to English; if English is also missing, the key itself renders so you notice.
 
-- **Vercel**: Connect your GitHub repo for automatic deployments
-- **Netlify**: Drag-and-drop deployment or Git integration
-- **GitHub Pages**: Enable Pages in repository settings
+## Repeating Sections
 
+Team cards, testimonials, and pricing tiers are rendered from arrays in `data.js` into the empty containers `#team-grid`, `#testimonials-track`, and `#plans-grid`. To edit one of those sections, edit the array — not the HTML.
 
-## 👥 Team
+## Local Development
 
-This project was developed by the FullStack Fury team:
+No dependencies. Serve the folder with any static server:
 
-- **Andrés Alberto Torres García**
-- **Camila Cristina Loli Ramirez**
-- **Oscar Josué Antayhua Castillo**
-- **Luis Andrés Alva Abanto**
-- **Angie Christina Yalán Zhang**
+```bash
+python3 -m http.server 5500
+# or
+npx serve .
+```
 
-## 📊 Pricing
+Then open <http://localhost:5500/>. Use the **ES / EN** button in the nav to toggle language.
 
-EduSpace offers three pricing tiers:
-- **Basic**: $8/month - Essential features for small schools
-- **Medium**: $15/month - Advanced tools for growing institutions
-- **Premium**: $30/month - Full suite for large educational complexes
+## Deployment
+
+Deploy to any static host — Vercel, Netlify, GitHub Pages, Cloudflare Pages, etc. No build step is required; publish the folder as-is.
+
+## Team
+
+Developed by **FullStack Fury** (UPC Peru — IoT Solutions Development, 2026-1):
+
+- Andrés Alberto Torres García
+- Camila Cristina Loli Ramirez
+- Oscar Josué Antayhua Castillo
+- Luis Andrés Alva Abanto
+- Angie Christina Yalán Zhang
+
+## Pricing (shown on site)
+
+- **Basic** — $8/month — essentials for small schools
+- **Medium** — $15/month — advanced tools for growing institutions
+- **Premium** — $30/month — full suite for large educational complexes
