@@ -80,13 +80,13 @@ Deploy to any static hosting service:
 
 ## 👥 Team
 
-This project was developed by the ProDevs team:
+This project was developed by the FullStack Fury team:
 
-- **Andres** - Project Lead
-- **Piero** - Development
-- **Marllely** - Design & Development
-- **Luciana** - Research & Development
-- **Alejandro** - Development
+- **Andrés Alberto Torres García**
+- **Camila Cristina Loli Ramirez**
+- **Oscar Josué Antayhua Castillo**
+- **Luis Andrés Alva Abanto**
+- **Angie Christina Yalán Zhang**
 
 ## 📊 Pricing
 
