@@ -11,9 +11,9 @@ const TEAM = [
 ];
 
 const TESTIMONIALS = [
-  { bodyKey: "testimonials.1.body", name: "Carlos Mendoza",  roleKey: "testimonials.role.admin",       photo: "assets/client-1.jpg" },
+  { bodyKey: "testimonials.1.body", name: "Carlos Mendoza",  roleKey: "testimonials.role.admin.m",     photo: "assets/client-1.jpg" },
   { bodyKey: "testimonials.2.body", name: "Ana Quispe",      roleKey: "testimonials.role.educational", photo: "assets/client-2.jpg" },
-  { bodyKey: "testimonials.3.body", name: "María Reyes",     roleKey: "testimonials.role.admin",       photo: "assets/client-3.jpg" },
+  { bodyKey: "testimonials.3.body", name: "María Reyes",     roleKey: "testimonials.role.admin.f",     photo: "assets/client-3.jpg" },
   { bodyKey: "testimonials.4.body", name: "Diego Ramírez",   roleKey: "testimonials.role.educational", photo: "assets/client-4.jpg" },
 ];
 

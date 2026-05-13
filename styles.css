@@ -123,8 +123,8 @@ h6 { font-size: 1.25rem; font-weight: 600; }
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
-  padding: 6px 14px;
+  gap: 14px;
+  padding: 6px 16px;
   border-radius: var(--radius-pill);
   background: rgba(12,192,223,.10);
   color: var(--eduspace-primary-deep);
@@ -190,16 +190,16 @@ nav {
   width: calc(100% - 24px);
   max-width: 1120px;
   z-index: 1000;
-  background: rgba(255, 255, 255, .78);
-  backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  background: rgba(255, 255, 255, .55);
+  backdrop-filter: blur(22px) saturate(1.5);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5);
   border: 1px solid rgba(12,192,223,.18);
   border-radius: var(--radius-pill);
   box-shadow: 0 10px 30px rgba(6,76,88,.08), 0 2px 6px rgba(6,76,88,.04);
   transition: box-shadow .25s, background-color .25s, top .25s;
 }
 nav.scrolled {
-  background: rgba(255, 255, 255, .92);
+  background: rgba(255, 255, 255, .72);
   box-shadow: 0 14px 40px rgba(6,76,88,.14), 0 2px 6px rgba(6,76,88,.06);
 }
 
