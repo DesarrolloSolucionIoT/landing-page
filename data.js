@@ -11,13 +11,13 @@ const TEAM = [
 ];
 
 const TESTIMONIALS = [
-  { bodyKey: "testimonials.1.body", name: "John Adams",      roleKey: "testimonials.role.admin",       photo: "assets/client-1.jpg" },
-  { bodyKey: "testimonials.2.body", name: "Emily Thompson",  roleKey: "testimonials.role.educational", photo: "assets/client-2.jpg" },
-  { bodyKey: "testimonials.3.body", name: "Sarah Lee",       roleKey: "testimonials.role.admin",       photo: "assets/client-3.jpg" },
-  { bodyKey: "testimonials.4.body", name: "David Patel",     roleKey: "testimonials.role.educational", photo: "assets/client-4.jpg" },
+  { bodyKey: "testimonials.1.body", name: "Carlos Mendoza",  roleKey: "testimonials.role.admin",       photo: "assets/client-1.jpg" },
+  { bodyKey: "testimonials.2.body", name: "Ana Quispe",      roleKey: "testimonials.role.educational", photo: "assets/client-2.jpg" },
+  { bodyKey: "testimonials.3.body", name: "María Reyes",     roleKey: "testimonials.role.admin",       photo: "assets/client-3.jpg" },
+  { bodyKey: "testimonials.4.body", name: "Diego Ramírez",   roleKey: "testimonials.role.educational", photo: "assets/client-4.jpg" },
 ];
 
-const PLAN_FEATURES = ["staff", "environments", "sports", "teachers", "notifications", "visualization", "damage", "support"];
+const PLAN_FEATURES = ["staff", "environments", "sports", "teachers", "notifications", "visualization", "iot", "support"];
 const PLANS = [
   { id: "basic",   className: "free",    tierKey: "plans.basic.tier",   price: "08.00" },
   { id: "medium",  className: "medium",  tierKey: "plans.medium.tier",  price: "15.00" },
@@ -36,7 +36,6 @@ function renderTeam(container) {
         <h3>${member.name}</h3>
         <p data-i18n="${member.roleKey}">${T(member.roleKey)}</p>
         <div class="icons">
-          <a href="#" aria-label="Twitter"><i class="ri-twitter-x-line"></i></a>
           <a href="#" aria-label="LinkedIn"><i class="ri-linkedin-fill"></i></a>
           <a href="#" aria-label="GitHub"><i class="ri-github-fill"></i></a>
           <a href="#" aria-label="Email"><i class="ri-mail-line"></i></a>
@@ -47,8 +46,8 @@ function renderTeam(container) {
 }
 
 function renderTestimonials(container) {
-  container.innerHTML = TESTIMONIALS.map((tst) => `
-    <div class="swiper-slide">
+  const cardHtml = (tst) => `
+    <div class="marquee__item">
       <div class="client__card">
         <div class="client__content">
           <div class="client__rating">
@@ -65,7 +64,10 @@ function renderTestimonials(container) {
         </div>
       </div>
     </div>
-  `).join("");
+  `;
+  // Render the list twice — the marquee loops by translating -50%
+  // and the duplicate fills the gap seamlessly.
+  container.innerHTML = TESTIMONIALS.map(cardHtml).join("") + TESTIMONIALS.map(cardHtml).join("");
 }
 
 function renderPlans(container) {

@@ -14,7 +14,21 @@ document.addEventListener("DOMContentLoaded", () => {
   initSwiper();
   initContactForm();
   initBackToTop();
+  initNavScroll();
+  initScrollReveal();
+  initCounters();
 });
+
+function initNavScroll() {
+  const nav = document.querySelector("nav");
+  if (!nav) return;
+  const onScroll = () => {
+    const y = window.scrollY || document.documentElement.scrollTop;
+    nav.classList.toggle("scrolled", y > 24);
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+}
 
 function initMobileMenu() {
   const menuBtn = document.getElementById("menu-btn");
@@ -41,17 +55,7 @@ function initLanguageToggle() {
 }
 
 function initSwiper() {
-  if (typeof Swiper === "undefined" || !document.querySelector(".swiper")) return;
-  new Swiper(".swiper", {
-    slidesPerView: 3,
-    spaceBetween: 20,
-    loop: true,
-    breakpoints: {
-      0:    { slidesPerView: 1 },
-      768:  { slidesPerView: 2 },
-      1024: { slidesPerView: 3 },
-    },
-  });
+  // Testimonials now use a pure-CSS marquee — no JS init needed.
 }
 
 function initContactForm() {
@@ -65,6 +69,88 @@ function initContactForm() {
     form.reset();
     setTimeout(() => { messageBox.style.display = "none"; }, 3000);
   });
+}
+
+function initScrollReveal() {
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const selectors = [
+    "section",
+    ".header__metric",
+    ".about__card",
+    ".iot__card",
+    ".experience__card",
+    ".sustainability__card",
+    ".team__card",
+    ".testimonial",
+    ".membership__card",
+    ".dashboard-description",
+    "section h2",
+  ];
+  const targets = document.querySelectorAll(selectors.join(","));
+  targets.forEach((el) => el.classList.add("reveal"));
+
+  if (prefersReduced || !("IntersectionObserver" in window)) {
+    targets.forEach((el) => el.classList.add("is-visible"));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      obs.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+
+  targets.forEach((el) => observer.observe(el));
+}
+
+function initCounters() {
+  const nodes = document.querySelectorAll(".header__metric strong");
+  if (!nodes.length) return;
+
+  const parse = (text) => {
+    const match = text.match(/^([+−-]?)(\d+(?:[.,]\d+)?)(.*)$/);
+    if (!match) return null;
+    return {
+      prefix: match[1] || "",
+      value: parseFloat(match[2].replace(",", ".")),
+      suffix: match[3] || "",
+      decimals: (match[2].split(/[.,]/)[1] || "").length,
+    };
+  };
+
+  const animate = (el) => {
+    const parsed = el._counter || (el._counter = parse(el.textContent.trim()));
+    if (!parsed) return;
+    const duration = 1400;
+    const start = performance.now();
+    const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+
+    const step = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const current = parsed.value * easeOut(progress);
+      el.textContent = parsed.prefix + current.toFixed(parsed.decimals) + parsed.suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = parsed.prefix + parsed.value.toFixed(parsed.decimals) + parsed.suffix;
+    };
+    requestAnimationFrame(step);
+  };
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      animate(entry.target);
+      obs.unobserve(entry.target);
+    });
+  }, { threshold: 0.6 });
+
+  nodes.forEach((el) => observer.observe(el));
 }
 
 function initBackToTop() {
